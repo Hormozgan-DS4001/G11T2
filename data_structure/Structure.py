@@ -131,9 +131,65 @@ class Dll:
 
 
 class DArray:
-    def __init__(self):
-        pass
+    
+    class IndexHandler:
+        def __init__(self, array):
+            self.array = array
+            self.index = 0
 
+        def next(self):
+            self.index += 1
+            assert self.index <= self.array.__len__()
+        
+        def prev(self):
+            self.index -= 1
+            assert self.index >= 0
+
+        def get(self):
+            assert self.array.__len__() > self.index
+            return self.array[self.index]
+
+    def __init__(self):
+        self.index = 0
+        self.capacity = 1
+        self.array = [None] * self.capacity
+
+    def __getitem__(self, item):
+        assert item < self.index
+        return self.array[item]
+
+    def is_empty(self):
+        return self.index == 0
+
+    def __len__(self):
+        return self.index
+
+    def append(self, data):
+        if self.capacity == self.index:
+            self._resize(2*self.capacity)
+        self.array[self.index] = data
+        self.index += 1
+
+    def _resize(self, capacity):
+        a = [None] * capacity
+        for i in range(self.index):
+            a[i] = self.array[i]
+        self.capacity = capacity
+        self.array = a
+
+    def pop(self):
+        assert not self.is_empty()
+        self.index -= 1
+        a = self.array[self.index]
+        if self.is_empty():
+            pass
+        else:
+            if self.capacity % self.index == 0:
+                self._resize(int(self.capacity/2))
+        return a
+
+    def __repr__(self):
+        return "DArray" + repr(self.array[:self.index])
 
 
 
