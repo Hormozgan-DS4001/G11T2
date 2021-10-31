@@ -130,7 +130,9 @@ class Dll:
         return t
 
 
-
+class DArray:
+    def __init__(self):
+        pass
 
 
 
