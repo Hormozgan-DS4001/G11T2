@@ -129,6 +129,9 @@ class Dll:
                 counter += 1
         return t
 
+    def get_node_handler(self, index):
+        return self.NodeHandler(self, self._get_node(index))
+
 
 class DArray:
     
