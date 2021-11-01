@@ -52,9 +52,6 @@ class Store:
     def add_reseller(self):
         pass
 
-    def create_reseller(self):
-        pass
-
     def delete_reseller(self):
         pass
 
