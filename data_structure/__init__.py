@@ -1,1 +1,1 @@
-from Structure import *
+from data_structure.Structure import *

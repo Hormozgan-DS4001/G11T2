@@ -26,14 +26,20 @@ class Manager:
 
 class Reseller:
 
-    def __init__(self):
+    def __init__(self, name: str, national_code: int, password: str = "123"):
+        self.name = name
+        self.national_code = national_code
+        self.password = password
         self.suggestion_user = DArray()
-        pass
+        self.stores_list = Dll()
 
     def add_suggestion(self):
         pass
 
     def view_suggestion(self):
+        pass
+
+    def show_stores_user(self):
         pass
 
 
@@ -50,6 +56,7 @@ class Store:
     def add_reseller(self, reseller: "Reseller"):
         self.reseller = reseller
         self.time = datetime.date.today().strftime("%b-%d-%Y")
+        reseller.stores_list.append(self)
 
     def delete_reseller(self):
         self.reseller = None
@@ -61,8 +68,12 @@ class Core:
     def __init__(self):
         self.stores = SArray(200)
         self.resellers = SArray(200)
+        self.number_reseller = -1
 
-    def create_reseller(self):
+    def create_new_reseller(self):
+        pass
+
+    def delete_reseller(self):
         pass
 
     def show_stores(self):
@@ -77,14 +88,17 @@ class Core:
     def create_store(self):
         pass
 
-    def login(self):
-        pass
+    def login(self, national_code, password):
+        # use binary search
+        minimum = 0
+        maximum = self.number_reseller
+        while minimum <= maximum:
+            mid = (maximum - minimum) + minimum // 2
+            if national_code == self.resellers[mid].national_code and password == self.resellers[mid].password:
+                return self.resellers[mid]
 
+            elif national_code > self.resellers[mid].national_code:
+                minimum = mid + 1
 
-
-
-
-
-
-
-
+            else:
+                maximum = mid - 1
