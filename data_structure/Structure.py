@@ -1,5 +1,30 @@
 class SArray:
 
+    class NodeHandler:
+        def __init__(self, array, index):
+            self.array = array
+            self.index = index
+
+        def has_prev(self):
+            return self.index > 0
+
+        def has_next(self):
+            return self.index < self.array.size
+
+        def get(self):
+            return self.array[self.index]
+
+        def traverse(self, reverse=False):
+            if not reverse:
+                while self.index < len(self.array):
+                    yield self.array[self.index]
+                    self.index += 1
+
+            else:
+                while self.index >= 0:
+                    yield self.array[self.index]
+                    self.index += 1
+
     def __init__(self, size):
         self.array = size * [None]
         self.size = size
@@ -75,6 +100,12 @@ class Dll:
 
     def __len__(self):
         return self._length
+
+    def __iter__(self):
+        t = self.head
+        while t:
+            yield t.data
+            t = t.next
 
     def delete(self, index):
         assert 0 <= index < self._length
@@ -173,6 +204,9 @@ class DArray:
     def __getitem__(self, item):
         assert item < self.length
         return self.array[item]
+
+    def __setitem__(self, key, value):
+        self.array[key] = value
 
     def is_empty(self):
         return self.length == 0
