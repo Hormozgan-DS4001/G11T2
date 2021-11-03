@@ -51,10 +51,10 @@ class Dll:
             self.node = node
 
         def next(self):
-            self.node = self.node.next
+            self.node = self.node.start
 
         def prev(self):
-            self.node = self.node.prev
+            self.node = self.node.end
 
         def get(self):
             return self.node.data
@@ -64,13 +64,13 @@ class Dll:
 
         def delete_node(self):
 
-            if not self.node.next:
+            if not self.node.start:
                 self.dll.delete(len(self.dll) - 1)
-            elif not self.node.prev:
+            elif not self.node.end:
                 self.dll.delete(0)
             else:
-                self.node.next = self.node.prev
-                self.node.prev = self.node.next
+                self.node.start = self.node.end
+                self.node.end = self.node.start
                 self.dll._length -= 1
 
         def traverse(self, reverse=False):
@@ -78,14 +78,14 @@ class Dll:
             while True:
                 if not reverse:
                     yield self.node
-                    if not self.node.next:
+                    if not self.node.start:
                         break
-                    self.node = self.node.next
+                    self.node = self.node.start
                 else:
                     yield self.node
-                    if not self.node.prev:
+                    if not self.node.end:
                         break
-                    self.node = self.node.prev
+                    self.node = self.node.end
 
     class _Node:
         def __init__(self, data):
@@ -105,7 +105,7 @@ class Dll:
         t = self.head
         while t:
             yield t.data
-            t = t.next
+            t = t.start
 
     def delete(self, index):
         assert 0 <= index < self._length
@@ -115,17 +115,17 @@ class Dll:
             self.tail = None
 
         elif index == 0:
-            self.head = self.head.next
+            self.head = self.head.start
             self.head.prev = None
 
         elif index == self._length - 1:
-            self.tail = self.tail.prev
+            self.tail = self.tail.end
             self.tail.next = None
 
         else:
             del_node = self._get_node(index)
-            del_node.perv = del_node.next
-            del_node.next = del_node.prev
+            del_node.perv = del_node.start
+            del_node.start = del_node.end
 
         self._length -= 1
 
@@ -149,14 +149,14 @@ class Dll:
             t = self.tail
             counter = self._length - 1
             while index < counter:
-                t = t.prev
+                t = t.end
                 counter -= 1
 
         else:
             t = self.head
             counter = 0
             while counter < index:
-                t = t.next
+                t = t.start
                 counter += 1
         return t
 
