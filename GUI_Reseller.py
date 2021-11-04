@@ -47,7 +47,7 @@ class ResellerView(Tk):
         frm4 = Frame(frm_lbl)
         frm4.grid(row=3, column=0)
         Button(frm4, text="Next", command=self.next_page).grid(row=0, column=0)
-        Button(frm4, text="Next", command=self.next_page).grid(row=0, column=1)
+        Button(frm4, text="Prev", command=self.prev_page).grid(row=0, column=1)
         self.next_page()
 
     def next_page(self):
@@ -59,6 +59,7 @@ class ResellerView(Tk):
         for it in self.start.traverse():
             if it.data.reseller != self.callback_user:
                 it.delete()
+                continue
             ite = (it.code, it.rant)
             self.tree_view.insert("", "end", value=ite)
             if count >= self.item:
@@ -74,6 +75,7 @@ class ResellerView(Tk):
         for it in self.start.traverse(True):
             if it.data.reseller != self.callback_user:
                 it.delete()
+                continue
             ite = (it.code, it.rant)
             self.tree_view.insert("", "end", value=ite)
             if count >= self.item:
