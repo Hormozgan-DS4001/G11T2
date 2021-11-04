@@ -11,7 +11,7 @@ class ResellerView(Tk):
         self.callback_user = callback_user
         self.callback_show_suggestion = callback_show_suggestion
         self.callback_add_sug = callback_add_suggestion
-        self.start = callback_show_stores
+        self.start = callback_show_stores()
         self.end = self.start
         self.item = 6
 
