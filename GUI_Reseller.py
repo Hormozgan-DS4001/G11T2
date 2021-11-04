@@ -1,5 +1,6 @@
 from configure import Tk, Frame, Button, Entry, Label, LabelFrame
 from tkinter import ttk
+from Suggestion_View import SuggestionView
 
 
 class ResellerView(Tk):
@@ -83,7 +84,9 @@ class ResellerView(Tk):
             count += 1
 
     def sug_cmd(self):
-        pass
+        panel = SuggestionView(self.callback_user, self.callback_add_sug, self.callback_show_suggestion)
+        self.not_tab.add(panel)
+        self.not_tab.select(panel)
 
 
 
