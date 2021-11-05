@@ -1,4 +1,4 @@
-from configure import Tk, Frame, Button, Entry, Label, LabelFrame
+from configure import Tk, Frame, Button, Label, LabelFrame
 from tkinter import ttk
 from Reseller.Suggestion_View import SuggestionView
 
