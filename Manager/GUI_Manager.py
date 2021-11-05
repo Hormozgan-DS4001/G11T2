@@ -23,4 +23,45 @@ class ManagerView(Tk):
         frm_lbl = LabelFrame(self.main_tab)
         frm_lbl.grid(row=0, column=1)
 
+        frm1 = Frame(frm_lbl)
+        frm1.grid(row=0, column=0)
+        Label(frm1, text="Store Code: ").grid(row=0, column=0)
+        self.entry_cs = Entry(frm1)
+        self.entry_cs.grid(row=0, column=1, padx=5)
+
+        frm2 = Frame(frm_lbl)
+        frm2.grid(row=1, column=0)
+        Button(frm2, text="Search", command=self.store_search).grid(row=0, column=0)
+
+        frm3 = Frame(frm_lbl)
+        frm3.grid(row=2, column=0)
+        self.tree = ttk.Treeview(frm3)
+        self.tree["column"] = ("SC", "ADDRESS")
+        self.tree.heading("SD", text="Store Code")
+        self.tree.heading("ADDRESS", text="Address")
+        self.tree.grid(row=0, column=0)
+
+
+    def store_search(self):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
