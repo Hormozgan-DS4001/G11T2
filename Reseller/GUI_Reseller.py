@@ -1,6 +1,6 @@
 from configure import Tk, Frame, Button, Entry, Label, LabelFrame
 from tkinter import ttk
-from Suggestion_View import SuggestionView
+from Reseller.Suggestion_View import SuggestionView
 
 
 class ResellerView(Tk):

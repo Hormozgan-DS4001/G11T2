@@ -1,6 +1,6 @@
-from DS import Core, Reseller, Suggestion, Store
+from DS import Core, Reseller
 from GUI_login import LoginWindow
-from GUI_Reseller import ResellerView
+from Reseller import ResellerView
 
 database = Core()
 user1 = database.create_new_reseller("kamand", 1234, "123")
