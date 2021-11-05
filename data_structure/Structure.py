@@ -9,21 +9,24 @@ class SArray:
             return self.index > 0
 
         def has_next(self):
-            return self.index < self.array.size
+            return self.array[self.index] is not None
+
+        def copy(self):
+            return SArray.NodeHandler(self.array, self.index)
 
         def get(self):
             return self.array[self.index]
 
         def traverse(self, reverse=False):
             if not reverse:
-                while self.index < len(self.array):
+                while self.array[self.index]:
                     yield self.array[self.index]
                     self.index += 1
 
             else:
                 while self.index >= 0:
                     yield self.array[self.index]
-                    self.index += 1
+                    self.index -= 1
 
     def __init__(self, size):
         self.array = size * [None]
@@ -41,6 +44,9 @@ class SArray:
         while counter < self.size:
             yield self.size[counter]
             counter += 1
+
+    def get_node_handler(self, index=0):
+        return self.NodeHandler(self, index)
 
 
 class Dll:

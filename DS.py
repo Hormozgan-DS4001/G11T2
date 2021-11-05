@@ -64,14 +64,17 @@ class Core:
         return new_reseller
 
     def show_stores(self):
-        return self.stores.NodeHandler(self.suggestion_list, 0)
+        return self.stores.get_node_handler(0)
+
+    def show_all_reseller(self):
+        return self.resellers.get_node_handler(0)
 
     def search_store(self, store_code: int):
         return self.stores[store_code - 1]
 
     def create_store(self, address):
         store = Store(address)
-        self.stores[store.STORE_CODE - 1] = store
+        self.stores[store.code - 1] = store
         return store
 
     def view_suggestion(self):

@@ -13,12 +13,15 @@ class ManagerView(Tk):
         self.create_store = callback_create_store
         self.search_store = callback_search_store
         self.new_user = callback_new_user
+        self.end = self.all_stores()
+        self.start = self.end.copy()
+        self.item = 5
 
         self.not_tab = ttk.Notebook(self)
         self.not_tab.grid(row=0, column=0)
         self.main_tab = Frame(self)
         self.main_tab.grid(row=0, column=0)
-        self.not_tab.add(self.main_tab)
+        self.not_tab.add(self.main_tab, text="Manager")
 
         frm_lbl = LabelFrame(self.main_tab)
         frm_lbl.grid(row=0, column=1)
@@ -35,9 +38,9 @@ class ManagerView(Tk):
 
         frm3 = Frame(frm_lbl)
         frm3.grid(row=2, column=0)
-        self.tree = ttk.Treeview(frm3)
+        self.tree = ttk.Treeview(frm3, show="headings", selectmode="browse")
         self.tree["column"] = ("SC", "ADDRESS")
-        self.tree.heading("SD", text="Store Code")
+        self.tree.heading("SC", text="Store Code")
         self.tree.heading("ADDRESS", text="Address")
         self.tree.grid(row=0, column=0)
 
@@ -61,6 +64,31 @@ class ManagerView(Tk):
         self.tree.delete(*self.tree.get_children())
         finish = (cs, result.address)
         self.tree.insert("", "end", value=finish)
+
+    def next_page(self):
+        if not self.end.has_next():
+            return
+        self.start = self.end.copy()
+        count = 0
+        self.tree.delete(*self.tree.get_children())
+        for it in self.end.traverse():
+            ite = (str(it.code), it.address)
+            self.tree.insert("", "end", value=ite)
+            if count >= self.item:
+                break
+            count += 1
+
+    def prev_page(self):
+        if not self.start.has_prev():
+            return
+        self.end = self.start.copy()
+        count = 0
+        self.tree.delete(*self.tree.get_children())
+        for it in self.start.traverse(True):
+            ite = (str(it.code), it.address)
+            self.tree.insert("", 0, value=ite)
+            if count >= self.item:
+                break
 
 
 
