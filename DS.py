@@ -31,22 +31,24 @@ class Reseller:
 class Store:
     STORE_CODE = 1
 
-    def __init__(self, address, rant):
+    def __init__(self, address):
         self.code = Store.STORE_CODE
         self.address = address
-        self.rant = rant
+        self.rant = 0.0
         self.time = 0
         self.reseller = None
         Store.STORE_CODE += 1
 
-    def add_reseller(self, reseller: "Reseller"):
+    def add_reseller(self, reseller: "Reseller", rant: float):
         self.reseller = reseller
+        self.rant = rant
         self.time = datetime.date.today().strftime("%b-%d-%Y")
         reseller.stores_list.append(self)
 
     def delete_reseller(self):
         self.reseller = None
         self.time = 0
+        self.rant = 0.0
 
 
 class Core:
@@ -61,19 +63,18 @@ class Core:
         self.resellers.append(new_reseller)
         return new_reseller
 
-    @staticmethod
-    def delete_reseller(store: "Store"):
-        store.delete_reseller()
-
     def show_stores(self):
-        return self.stores.NodeHandler(self.suggestion_list, 0)
+        return self.stores.get_node_handler(0)
+
+    def show_all_reseller(self):
+        return self.resellers.get_node_handler(0)
 
     def search_store(self, store_code: int):
         return self.stores[store_code - 1]
 
-    def create_store(self, address, rant):
-        store = Store(address, rant)
-        self.stores[store.STORE_CODE - 1] = store
+    def create_store(self, address):
+        store = Store(address)
+        self.stores[store.code - 1] = store
         return store
 
     def view_suggestion(self):
