@@ -1,5 +1,5 @@
 from configure import Entry, Frame, LabelFrame, Button, Label, Tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import tkinter
 
 
@@ -41,9 +41,28 @@ class ManagerView(Tk):
         self.tree.heading("ADDRESS", text="Address")
         self.tree.grid(row=0, column=0)
 
+        frm4 = Frame(frm_lbl)
+        frm4.grid(row=3, column=0)
+        Button(frm4, text="prev", command=self.prev_page).grid(row=0, column=0)
+        Button(frm4, text="next", command=self.next_page).grid(row=0, column=1)
 
     def store_search(self):
-        pass
+        cs = self.entry_cs.get()
+        if not cs.isnumeric:
+            messagebox.showerror("error", "please enter number")
+            self.entry_cs.delete(0, "end")
+            return
+        if not 1 <= int(cs) <= 200:
+            messagebox.showerror("error", "please enter number between 1 and 200")
+            self.entry_cs.delete(0, "end")
+            return
+
+        result = self.search_store(int(cs))
+        self.tree.delete(*self.tree.get_children())
+        finish = (cs, result.address)
+        self.tree.insert("", "end", value=finish)
+
+
 
 
 
