@@ -1,6 +1,6 @@
 from configure import Button, Label, Frame, Entry, LabelFrame
 import tkinter
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 
 class SuggestionView(Frame):
@@ -24,11 +24,18 @@ class SuggestionView(Frame):
 
         self.frm8 = Frame(self)
         self.frm8.grid(row=2, column=0)
+        self.tree = ttk.Treeview(self.frm8, show="headings", selectmode="browse", height=10)
+        self.tree["column"] = ("text", "time", "manager seen")
+        self.tree.heading("text", text="TEXT")
+        self.tree.heading("time", text="TIME")
+        self.tree.heading("manager seen", text="SEEN")
+        self.tree.grid(row=0, column=0)
 
         frm4 = Frame(self)
         frm4.grid(row=3, column=0)
         Button(frm4, text="Next", command=self.next_page).grid(row=0, column=1)
         Button(frm4, text="Prev", command=self.prev_page).grid(row=0, column=0)
+        self.next_page()
 
     def next_page(self):
         if not self.end.has_next():
@@ -36,9 +43,13 @@ class SuggestionView(Frame):
         self.start = self.end.copy()
         count = 0
         print(self.start.traverse())
-        for it in self.start.traverse():
-            frm = Suggestion(self.frm8, it)
-            frm.grid(row=count, column=0)
+        self.tree.delete(*self.tree.get_children())
+        for it in self.end.traverse():
+            if it.is_delete:
+                it = (it.text, str(it.time), "+")
+            else:
+                it = (it.text, str(it.time), "-")
+            self.tree.insert("", "end", value=it)
             if count >= self.item:
                 break
             count += 1
@@ -48,9 +59,13 @@ class SuggestionView(Frame):
             return
         self.end = self.start.copy()
         count = 0
-        for it in self.end.traverse(True):
-            frm = Suggestion(self.frm8, it)
-            frm.grid(row=count, column=0)
+        self.tree.delete(*self.tree.get_children())
+        for it in self.start.traverse(True):
+            if it.is_delete:
+                it = (it.text, str(it.time), "+")
+            else:
+                it = (it.text, str(it.time), " ")
+            self.tree.insert("", 0, value=it)
             if count >= self.item:
                 break
 
@@ -64,22 +79,22 @@ class SuggestionView(Frame):
         self.next_page()
 
 
-class Suggestion(Frame):
-    def __init__(self, master, callback_suggestion):
-        super(Suggestion, self).__init__(master)
-        self.config(bd=3, bg="#fff1e6")
-        self.node = callback_suggestion
-        print(type(callback_suggestion))
-        delete = callback_suggestion.is_delete
-        time = callback_suggestion.time
-        text = callback_suggestion.text
-
-        text_box = tkinter.Text(self, width=20, height=10)
-        text_box.grid(row=0, column=0)
-        text_box.insert("end", text)
-        text_box.insert("end", f"({str(time)})")
-        if delete:
-            text_box.insert("end", f"(*this message seen by manager)")
+# class Suggestion(Frame):
+#     def __init__(self, master, callback_suggestion):
+#         super(Suggestion, self).__init__(master)
+#         self.config(bd=3, bg="#fff1e6")
+#         self.node = callback_suggestion
+#         print(type(callback_suggestion))
+#         delete = callback_suggestion.is_delete
+#         time = callback_suggestion.time
+#         text = callback_suggestion.text
+#
+#         text_box = tkinter.Text(self, width=20, height=10)
+#         text_box.grid(row=0, column=0)
+#         text_box.insert("end", text)
+#         text_box.insert("end", f"({str(time)})")
+#         if delete:
+#             text_box.insert("end", f"(*this message seen by manager)")
 
 
 
