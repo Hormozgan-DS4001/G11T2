@@ -45,16 +45,22 @@ class SArray:
 
 class Dll:
 
+    class _Node:
+        def __init__(self, data):
+            self.data = data
+            self.next = None
+            self.prev = None
+
     class NodeHandler:
         def __init__(self, dll,  node):
             self.dll = dll
             self.node = node
 
         def next(self):
-            self.node = self.node.start
+            self.node = self.node.next
 
         def prev(self):
-            self.node = self.node.end
+            self.node = self.node.prev
 
         def get(self):
             return self.node.data
@@ -64,34 +70,28 @@ class Dll:
 
         def delete_node(self):
 
-            if not self.node.start:
+            if not self.node.next:
                 self.dll.delete(len(self.dll) - 1)
-            elif not self.node.end:
+            elif not self.node.prev:
                 self.dll.delete(0)
             else:
-                self.node.start = self.node.end
-                self.node.end = self.node.start
+                self.node.next = self.node.prev
+                self.node.prev = self.node.next
                 self.dll._length -= 1
 
         def traverse(self, reverse=False):
 
             while True:
                 if not reverse:
-                    yield self.node
-                    if not self.node.start:
+                    yield self.node.data
+                    if not self.node.next:
                         break
-                    self.node = self.node.start
+                    self.node = self.node.next
                 else:
-                    yield self.node
-                    if not self.node.end:
+                    yield self.node.data
+                    if not self.node.prev:
                         break
-                    self.node = self.node.end
-
-    class _Node:
-        def __init__(self, data):
-            self.data = data
-            self.next = None
-            self.prev = None
+                    self.node = self.node.prev
 
     def __init__(self):
         self.head = None
@@ -106,6 +106,18 @@ class Dll:
         while t:
             yield t.data
             t = t.start
+
+    def __str__(self):
+        if self._length == 0:
+            return "DLL[]"
+        result = "DLL["
+        t = self.head
+        while t:
+            result += str(t.data) + ", "
+            t = t.next
+        return result[:-2] + "]"
+
+    __repr__ = __str__
 
     def delete(self, index):
         assert 0 <= index < self._length
@@ -172,7 +184,7 @@ class DArray:
             self.index = index
 
         def has_next(self):
-            return self.index < len(self.array)
+            return self.index + 1 < len(self.array)
 
         def has_prev(self):
             return self.index > 0
@@ -202,10 +214,11 @@ class DArray:
         return self.length
 
     def __getitem__(self, item):
-        assert item < self.length
+        assert 0 <= item < self.length
         return self.array[item]
 
     def __setitem__(self, key, value):
+        assert 0 <= key < self.length, 'Index out of range'
         self.array[key] = value
 
     def is_empty(self):
