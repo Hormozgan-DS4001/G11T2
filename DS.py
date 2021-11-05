@@ -22,10 +22,10 @@ class Reseller:
         self.suggestion_user.append(suggestion)
 
     def view_suggestion(self):
-        return self.suggestion_user.IndexHandler(self.suggestion_user, len(self.suggestion_user) - 1)
+        return self.suggestion_user.get_node_handler(len(self.suggestion_user) - 1)
 
     def show_stores_user(self):
-        return self.suggestion_user.IndexHandler(self.stores_list, 0)
+        return self.stores_list.get_node_handler(0)
 
 
 class Store:
@@ -37,6 +37,7 @@ class Store:
         self.rant = rant
         self.time = 0
         self.reseller = None
+        Store.STORE_CODE += 1
 
     def add_reseller(self, reseller: "Reseller"):
         self.reseller = reseller
@@ -54,12 +55,11 @@ class Core:
         self.suggestion_list = Dll()
         self.stores = SArray(200)
         self.resellers = DArray(200)
-        self.number_reseller = -1
 
     def create_new_reseller(self, name, national_code, password):
         new_reseller = Reseller(name, national_code, password)
-        self.number_reseller += 1
-        self.resellers[self.number_reseller] = new_reseller
+        self.resellers.append(new_reseller)
+        return new_reseller
 
     @staticmethod
     def delete_reseller(store: "Store"):
@@ -74,20 +74,21 @@ class Core:
     def create_store(self, address, rant):
         store = Store(address, rant)
         self.stores[store.STORE_CODE - 1] = store
+        return store
 
     def view_suggestion(self):
         return self.suggestion_list.get_node_handler(len(self.suggestion_list) - 1)
 
     def add_suggestion(self, reseller: "Reseller", text: str):
         time = datetime.date.today().strftime("%b-%d-%Y")
-        suggestion = (text, time)
+        suggestion = Suggestion(text, time)
         self.suggestion_list.append(suggestion)
-        reseller.suggestion_user.append(suggestion)
+        reseller.add_suggestion(suggestion)
 
     def login(self, national_code, password):
         # use binary search
         minimum = 0
-        maximum = self.number_reseller
+        maximum = len(self.resellers) - 1
         while minimum <= maximum:
             mid = (maximum - minimum) + minimum // 2
             if national_code == self.resellers[mid].national_code and password == self.resellers[mid].password:
