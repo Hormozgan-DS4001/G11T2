@@ -199,6 +199,8 @@ class DArray:
             return DArray.IndexHandler(self.array, self.index)
 
         def get(self):
+            print(self.index)
+            print(len(self.array))
             return self.array[self.index]
 
         def traverse(self, reverse=False):

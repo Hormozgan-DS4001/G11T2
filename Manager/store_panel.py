@@ -53,6 +53,11 @@ class StorePanel(Frame):
         Button(frm4, text="Next", command=self.next_page).grid(row=1, column=1)
         Button(frm4, text="Prev", command=self.prev_page).grid(row=1, column=0)
 
+        frm5 = Frame(self)
+        frm5.grid(row=3, column=0)
+        Label(frm5, text="Rant Amount:").grid(row=0, column=0)
+        self.ent_rant = Entry(frm5)
+
     def add_reseller(self):
         select = self.tree.selection()
         if self.store.reseller:
@@ -62,18 +67,17 @@ class StorePanel(Frame):
             messagebox.showerror("error", "please select one reseller")
             return
 
-        frm5 = Frame(self)
-        frm5.grid(row=3, column=0)
-        Label(frm5, text="Rant Amount:").grid(row=0, column=0)
-        ent_rant = Entry(frm5)
-        ent_rant.grid(row=0, column=1)
-        get = ent_rant.get()
-        if get == "" or not isinstance(get, float):
+        self.ent_rant.grid(row=0, column=1)
+        res = self.ent_rant.get()
+
+        if res == "":
             messagebox.showerror("error", "please enter rant")
             return
 
-        ID = self.tree.item(select)["index"]
-        self.store.add_reseller(self.list_res[ID], float(get))
+        ID = self.tree.item(select)["text"]
+
+        user = self.list_res[int(ID)]
+        self.store.add_reseller(user, float(res))
 
     def delete_reseller(self):
         result = messagebox.askokcancel("Sure", f"are you sure delete this reseller")
@@ -89,8 +93,8 @@ class StorePanel(Frame):
         self.tree.delete(*self.tree.get_children())
         for it in self.end.traverse():
             ite = (it.name, it.national_code)
-            self.list_res.append(self.end)
-            self.tree.insert("", "end", value=ite, index=count)
+            self.list_res.append(it)
+            self.tree.insert("", "end", value=ite, text=str(count))
             if count >= self.item:
                 break
             count += 1
@@ -104,8 +108,8 @@ class StorePanel(Frame):
         self.tree.delete(*self.tree.get_children())
         for it in self.start.traverse(True):
             ite = (it.name, it.national_code)
-            self.list_res.append(self.start)
-            self.tree.insert("", "end", value=ite, index=count)
+            self.list_res.append(it)
+            self.tree.insert("", "end", value=ite, tag=count)
             if count >= self.item:
                 break
             count += 1

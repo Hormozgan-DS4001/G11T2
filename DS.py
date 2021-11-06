@@ -90,13 +90,13 @@ class Core:
     @staticmethod
     def _sorting(array: DArray):
         for i in range(len(array)):
-            cursor = array[i]
+            cursor = array[i].national_code
             k = i
-            while k > 0 and cursor < array[k - 1]:
-                array[k] = array[k - 1]
+            while k > 0 and cursor < array[k - 1].national_code:
+                array[k].national_code = array[k - 1].national_code
                 k -= 1
 
-            array[k] = cursor
+            array[k].national_code = cursor
 
     def login(self, national_code, password):
         # use binary search
