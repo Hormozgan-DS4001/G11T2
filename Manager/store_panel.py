@@ -29,14 +29,11 @@ class StorePanel(Frame):
 
         frm1 = Frame(self)
         frm1.grid(row=0, column=0)
-        Label(frm1, text=f"Store Address {sc}: {address}").grid(row=0, column=0)
-        Label(frm1, text=f"Reseller: {name_reseller}").grid(row=1, column=0)
-
-        frm2 = Frame(self)
-        frm2.grid(row=1, column=0)
-        Label(frm2, text=f"National Code: {nc_reseller}").grid(row=0, column=0)
-        Label(frm2, text=f"Contract Time: {time}").grid(row=1, column=0)
-        Label(frm2, text=f"Rant Amount: {rant}").grid(row=1, column=1)
+        Label(frm1, text=f"Store Address {sc}:     {address}").grid(row=0, column=0, sticky="w", pady=3)
+        Label(frm1, text=f"Reseller:                  {name_reseller}").grid(row=1, column=0, sticky="w", pady=3)
+        Label(frm1, text=f"National Code:        {nc_reseller}").grid(row=2, column=0, sticky="w", pady=3)
+        Label(frm1, text=f"Contract Time:        {time}").grid(row=3, column=0, sticky="w", pady=3)
+        Label(frm1, text=f"Rant Amount:          {rant}").grid(row=4, column=0, sticky="w", pady=3)
 
         frm3 = Frame(self)
         frm3.grid(row=2, column=0)
@@ -50,28 +47,35 @@ class StorePanel(Frame):
         self.tree.heading("Name", text="Name")
         self.tree.heading("National Code", text="National Code")
         self.tree.grid(row=0, column=0)
-        Button(frm4, text="Next", command=self.next_page).grid(row=1, column=1)
-        Button(frm4, text="Prev", command=self.prev_page).grid(row=1, column=0)
+
+        frm5 = Frame(self)
+        frm5.grid(row=5, column=0)
+        Button(frm5, text="Next", command=self.next_page).grid(row=1, column=1)
+        Button(frm5, text="Prev", command=self.prev_page).grid(row=1, column=0)
 
         frm5 = Frame(self)
         frm5.grid(row=3, column=0)
         Label(frm5, text="Rant Amount:").grid(row=0, column=0)
         self.ent_rant = Entry(frm5)
+        self.ent_rant.grid(row=0, column=1)
+
+        self.next_page()
 
     def add_reseller(self):
         select = self.tree.selection()
         if self.store.reseller:
             messagebox.showerror("error", "this store have reseller")
+            self.tree.selection_remove()
             return
         if select == ():
             messagebox.showerror("error", "please select one reseller")
+            self.tree.selection_remove()
             return
 
-        self.ent_rant.grid(row=0, column=1)
         res = self.ent_rant.get()
-
         if res == "":
             messagebox.showerror("error", "please enter rant")
+            self.tree.selection_remove()
             return
 
         ID = self.tree.item(select)["text"]
@@ -83,6 +87,7 @@ class StorePanel(Frame):
         result = messagebox.askokcancel("Sure", f"are you sure delete this reseller")
         if result:
             self.store.delete_reseller()
+        self.tree.selection_remove()
 
     def next_page(self):
         if not self.end.has_next():

@@ -50,7 +50,9 @@ class ManagerView(Tk):
         frm4 = Frame(frm_lbl)
         frm4.grid(row=3, column=0)
         Button(frm4, text="prev", command=self.prev_page).grid(row=0, column=0)
-        Button(frm4, text="next", command=self.next_page).grid(row=0, column=1)
+        Button(frm4, text="next", command=self.next_page).grid(row=0, column=1, sticky="w")
+
+        self.next_page()
 
     def double(self, even):
         result = self.tree.selection()
@@ -60,6 +62,7 @@ class ManagerView(Tk):
         panel = StorePanel(self.search_store(ID), self.all_users, self.new_user, self.not_tab)
         self.not_tab.add(panel, text=ID)
         self.not_tab.select(panel)
+        self.tree.selection_remove()
 
     def suggestion_view(self):
         pass
