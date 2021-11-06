@@ -15,9 +15,20 @@ uer2 = database.create_new_reseller("kasra", 456572, "kargar")
 uer3 = database.create_new_reseller("keyvan", 45602, "kh")
 uer4 = database.create_new_reseller("mamad", 45162, "kargar")
 stor1.add_reseller(uer1, 2.2)
+database.add_suggestion(uer1, "hallo")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+database.add_suggestion(uer2, "hallo hi")
+s1 = database.add_suggestion(uer3, "hallo how are you")
+database.delete_sug(s1)
 
 tk = ManagerView(database.show_stores, database.show_all_reseller, database.view_suggestion, database.create_store
-                 , database.search_store, database.create_new_reseller)
+                 , database.search_store, database.create_new_reseller, database.delete_sug)
 
 tk.mainloop()
 

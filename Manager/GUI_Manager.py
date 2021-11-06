@@ -2,11 +2,12 @@ from configure import Entry, Frame, LabelFrame, Button, Label, Tk
 from tkinter import ttk, messagebox
 import tkinter
 from Manager.store_panel import StorePanel
+from Manager.manager_suggestion import SuggestionView
 
 
 class ManagerView(Tk):
     def __init__(self, callback_all_stores, callback_all_users, callback_all_suggestion, callback_create_store,
-                 callback_search_store, callback_new_user):
+                 callback_search_store, callback_new_user, callback_delete_sug):
         super(ManagerView, self).__init__()
         self.all_stores = callback_all_stores
         self.all_users = callback_all_users
@@ -14,6 +15,7 @@ class ManagerView(Tk):
         self.create_store = callback_create_store
         self.search_store = callback_search_store
         self.new_user = callback_new_user
+        self.delete_sug = callback_delete_sug
         self.end = self.all_stores()
         self.start = self.end.copy()
         self.item = 5
@@ -65,7 +67,9 @@ class ManagerView(Tk):
         self.tree.selection_remove()
 
     def suggestion_view(self):
-        pass
+        panel = SuggestionView(self.all_suggestion, self.delete_sug, self.not_tab)
+        self.not_tab.add(panel, text="Suggestion")
+
 
     def store_search(self):
         cs = self.entry_cs.get()

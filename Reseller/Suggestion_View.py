@@ -42,14 +42,13 @@ class SuggestionView(Frame):
             return
         self.start = self.end.copy()
         count = 0
-        print(self.start.traverse())
         self.tree.delete(*self.tree.get_children())
         for it in self.end.traverse():
             if it.is_delete:
-                it = (it.text, str(it.time), "+")
+                ite = (it.text, str(it.time), "+")
             else:
-                it = (it.text, str(it.time), "-")
-            self.tree.insert("", "end", value=it)
+                ite = (it.text, str(it.time), "-")
+            self.tree.insert("", "end", value=ite)
             if count >= self.item:
                 break
             count += 1
@@ -62,10 +61,10 @@ class SuggestionView(Frame):
         self.tree.delete(*self.tree.get_children())
         for it in self.start.traverse(True):
             if it.is_delete:
-                it = (it.text, str(it.time), "+")
+                ite = (it.text, str(it.time), "+")
             else:
-                it = (it.text, str(it.time), " ")
-            self.tree.insert("", 0, value=it)
+                ite = (it.text, str(it.time), " ")
+            self.tree.insert("", 0, value=ite)
             if count >= self.item:
                 break
 

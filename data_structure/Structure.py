@@ -81,8 +81,8 @@ class Dll:
             elif not self.node.prev:
                 self.dll.delete(0)
             else:
-                self.node.next = self.node.prev
-                self.node.prev = self.node.next
+                self.node.next.prev = self.node.prev.next
+                self.node.prev.next = self.node.next.prev
                 self.dll._length -= 1
 
         def traverse(self, reverse=False):
@@ -111,7 +111,7 @@ class Dll:
         t = self.head
         while t:
             yield t.data
-            t = t.start
+            t = t.next
 
     def __str__(self):
         if self._length == 0:
@@ -133,17 +133,17 @@ class Dll:
             self.tail = None
 
         elif index == 0:
-            self.head = self.head.start
+            self.head = self.head.next
             self.head.prev = None
 
         elif index == self._length - 1:
-            self.tail = self.tail.end
+            self.tail = self.tail.prev
             self.tail.next = None
 
         else:
             del_node = self._get_node(index)
-            del_node.perv = del_node.start
-            del_node.start = del_node.end
+            del_node.perv.next = del_node.next.prev
+            del_node.next.prev = del_node.prev.next
 
         self._length -= 1
 
@@ -165,16 +165,16 @@ class Dll:
 
         if self._length - index < index:
             t = self.tail
-            counter = self._length - 1
+            counter = self._length
             while index < counter:
-                t = t.end
+                t = t.prev
                 counter -= 1
 
         else:
             t = self.head
             counter = 0
             while counter < index:
-                t = t.start
+                t = t.next
                 counter += 1
         return t
 

@@ -3,7 +3,8 @@ import datetime
 
 
 class Suggestion:
-    def __init__(self, text, time):
+    def __init__(self, text, time, reseller: "Reseller"):
+        self.reseller = reseller
         self.text = text
         self.time = time
         self.is_delete = False
@@ -79,13 +80,14 @@ class Core:
         return store
 
     def view_suggestion(self):
-        return self.suggestion_list.get_node_handler(len(self.suggestion_list) - 1)
+        return self.suggestion_list.get_node_handler(0)
 
     def add_suggestion(self, reseller: "Reseller", text: str):
         time = datetime.date.today().strftime("%b-%d-%Y")
-        suggestion = Suggestion(text, time)
+        suggestion = Suggestion(text, time, reseller)
         self.suggestion_list.append(suggestion)
         reseller.add_suggestion(suggestion)
+        return suggestion
 
     @staticmethod
     def _sorting(array: DArray):
@@ -97,6 +99,9 @@ class Core:
                 k -= 1
 
             array[k].national_code = cursor
+
+    def delete_sug(self, suggestion: "Suggestion"):
+        suggestion.is_delete = True
 
     def login(self, national_code, password):
         # use binary search
