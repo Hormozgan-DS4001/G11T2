@@ -61,6 +61,7 @@ class Core:
     def create_new_reseller(self, name, national_code, password):
         new_reseller = Reseller(name, national_code, password)
         self.resellers.append(new_reseller)
+        self._sorting(self.resellers)
         return new_reseller
 
     def show_stores(self):
@@ -85,6 +86,17 @@ class Core:
         suggestion = Suggestion(text, time)
         self.suggestion_list.append(suggestion)
         reseller.add_suggestion(suggestion)
+
+    @staticmethod
+    def _sorting(array: DArray):
+        for i in range(len(array)):
+            cursor = array[i]
+            k = i
+            while k > 0 and cursor < array[k - 1]:
+                array[k] = array[k - 1]
+                k -= 1
+
+            array[k] = cursor
 
     def login(self, national_code, password):
         # use binary search

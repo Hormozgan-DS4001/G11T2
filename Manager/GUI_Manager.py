@@ -1,6 +1,7 @@
 from configure import Entry, Frame, LabelFrame, Button, Label, Tk
 from tkinter import ttk, messagebox
 import tkinter
+from Manager.store_panel import StorePanel
 
 
 class ManagerView(Tk):
@@ -28,13 +29,14 @@ class ManagerView(Tk):
 
         frm1 = Frame(frm_lbl)
         frm1.grid(row=0, column=0)
-        Label(frm1, text="Store Code: ").grid(row=0, column=0)
+        Label(frm1, text="Store Code:").grid(row=0, column=0, padx=10)
         self.entry_cs = Entry(frm1)
         self.entry_cs.grid(row=0, column=1, padx=5)
 
         frm2 = Frame(frm_lbl)
         frm2.grid(row=1, column=0)
-        Button(frm2, text="Search", command=self.store_search).grid(row=0, column=0)
+        Button(frm2, text="Search", command=self.store_search).grid(row=0, column=0, pady=3)
+        Button(frm2, text="Suggestion", command=self.suggestion_view).grid(row=0, column=1, pady=3)
 
         frm3 = Frame(frm_lbl)
         frm3.grid(row=2, column=0)
@@ -43,14 +45,29 @@ class ManagerView(Tk):
         self.tree.heading("SC", text="Store Code")
         self.tree.heading("ADDRESS", text="Address")
         self.tree.grid(row=0, column=0)
+        self.tree.bind("<Double-1>", self.double)
 
         frm4 = Frame(frm_lbl)
         frm4.grid(row=3, column=0)
         Button(frm4, text="prev", command=self.prev_page).grid(row=0, column=0)
         Button(frm4, text="next", command=self.next_page).grid(row=0, column=1)
 
+    def double(self, even):
+        result = self.tree.selection()
+        if result == ():
+            return
+        ID, address = self.tree.item(result)["values"]
+        panel = StorePanel(self.search_store(ID), self.all_users, self.new_user, self.not_tab)
+        self.not_tab.add(panel, text=ID)
+        self.not_tab.select(panel)
+
+    def suggestion_view(self):
+        pass
+
     def store_search(self):
         cs = self.entry_cs.get()
+        if cs == "":
+            return
         if not cs.isnumeric:
             messagebox.showerror("error", "please enter number")
             self.entry_cs.delete(0, "end")
