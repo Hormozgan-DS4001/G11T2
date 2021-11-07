@@ -59,6 +59,22 @@ class StorePanel(Frame):
         self.ent_rant = Entry(frm5)
         self.ent_rant.grid(row=0, column=1)
 
+        frm6 = Frame(self)
+        frm6.grid(row=6, column=0)
+        Label(frm6, text="Name: ").grid(row=0, column=0)
+        self.ent_name = Entry(frm6)
+        self.ent_name.grid(row=0, column=1)
+        Label(frm6, text="National code: ").grid(row=1, column=0)
+        self.ent_nc = Entry(frm6)
+        self.ent_nc.grid(row=1, column=1)
+        Label(frm6, text="password: ").grid(row=2, column=0)
+        self.ent_pas = Entry(frm6)
+        self.ent_pas.grid(row=2, column=1)
+        Label(frm6, text="create password: ").grid(row=3, column=0)
+        self.ent_CPas = Entry(frm6)
+        self.ent_CPas.grid(row=3, column=1)
+        Button(frm6, text="Add New Reseller", command=self.new_user).grid(row=4, column=0)
+
         self.next_page()
 
     def add_reseller(self):
@@ -118,3 +134,25 @@ class StorePanel(Frame):
             if count >= self.item:
                 break
             count += 1
+
+    def new_user(self):
+        name = self.ent_name.get()
+        nat_code = self.ent_nc.get()
+        password = self.ent_pas.get()
+        create_pass = self.ent_CPas.get()
+        if not nat_code.isnumeric():
+            messagebox.showerror("error", "please enter correct national code")
+            self.ent_nc.delete(0, "end")
+            return
+        if password != create_pass:
+            messagebox.showerror("error", "tow password is not same")
+            self.ent_pas.delete(0, "end")
+            self.ent_CPas.delete(0, "end")
+            return
+        self.new_reseller(name, int(nat_code), create_pass)
+        self.ent_name.delete(0, "end")
+        self.ent_nc.delete(0, "end")
+        self.ent_pas.delete(0, "end")
+        self.ent_CPas.delete(0, "end")
+
+

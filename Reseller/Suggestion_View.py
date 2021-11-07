@@ -75,4 +75,4 @@ class SuggestionView(Frame):
             return
 
         self.callback_add_sug(self.callback_user, text)
-        self.next_page()
+        # self.next_page()
