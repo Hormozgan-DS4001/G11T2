@@ -59,7 +59,7 @@ class Core:
         self.stores = SArray(200)
         self.resellers = DArray(200)
 
-    def create_new_reseller(self, name, national_code, password):
+    def create_new_reseller(self, name: str, national_code: int, password: str):
         new_reseller = Reseller(name, national_code, password)
         self.resellers.append(new_reseller)
         self._sorting(self.resellers)
@@ -72,9 +72,10 @@ class Core:
         return self.resellers.get_node_handler(0)
 
     def search_store(self, store_code: int):
+        assert 0 < store_code <= 200
         return self.stores[store_code - 1]
 
-    def create_store(self, address):
+    def create_store(self, address: str):
         store = Store(address)
         self.stores[store.code - 1] = store
         return store
@@ -91,6 +92,7 @@ class Core:
 
     @staticmethod
     def _sorting(array: DArray):
+
         for i in range(len(array)):
             cursor = array[i].national_code
             k = i
@@ -102,9 +104,10 @@ class Core:
 
     @staticmethod
     def delete_sug(suggestion: "Suggestion"):
+
         suggestion.is_delete = True
 
-    def login(self, national_code, password):
+    def login(self, national_code: int, password: str):
 
         minimum = 0
         maximum = len(self.resellers) - 1
