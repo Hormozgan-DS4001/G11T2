@@ -94,13 +94,13 @@ class Core:
     def _sorting(array: DArray):
 
         for i in range(len(array)):
-            cursor = array[i].national_code
+            cursor = array[i]
             k = i
-            while k > 0 and cursor < array[k - 1].national_code:
-                array[k].national_code = array[k - 1].national_code
+            while k > 0 and cursor.national_code < array[k - 1].national_code:
+                array[k] = array[k - 1]
                 k -= 1
 
-            array[k].national_code = cursor
+            array[k] = cursor
 
     @staticmethod
     def delete_sug(suggestion: "Suggestion"):

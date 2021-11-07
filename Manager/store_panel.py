@@ -110,12 +110,10 @@ class StorePanel(Frame):
             return
         self.start = self.end.copy()
         count = 0
-        self.list_res = []
         self.tree.delete(*self.tree.get_children())
         for it in self.end.traverse():
             ite = (it.name, it.national_code)
-            self.list_res.append(it)
-            self.tree.insert("", "end", value=ite, text=str(count))
+            self.tree.insert("", "end", value=ite)
             if count >= self.item:
                 break
             count += 1
@@ -124,13 +122,11 @@ class StorePanel(Frame):
         if not self.start.has_prev():
             return
         count = 0
-        self.list_res = []
         self.end = self.start.copy()
         self.tree.delete(*self.tree.get_children())
         for it in self.start.traverse(True):
             ite = (it.name, it.national_code)
-            self.list_res.append(it)
-            self.tree.insert("", "end", value=ite, tag=count)
+            self.tree.insert("", 0, value=ite)
             if count >= self.item:
                 break
             count += 1
