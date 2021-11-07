@@ -108,12 +108,14 @@ class StorePanel(Frame):
     def next_page(self):
         if not self.end.has_next():
             return
-        self.start = self.end.copy()
-        count = 0
         self.tree.delete(*self.tree.get_children())
+        self.start = self.end.copy()
+        self.list_res = []
+        count = 0
         for it in self.end.traverse():
             ite = (it.name, it.national_code)
-            self.tree.insert("", "end", value=ite)
+            self.list_res.append(it)
+            self.tree.insert("", "end", value=ite, text=count)
             if count >= self.item:
                 break
             count += 1
@@ -124,9 +126,11 @@ class StorePanel(Frame):
         count = 0
         self.end = self.start.copy()
         self.tree.delete(*self.tree.get_children())
+        self.list_res = []
         for it in self.start.traverse(True):
             ite = (it.name, it.national_code)
-            self.tree.insert("", 0, value=ite)
+            self.list_res.append(it)
+            self.tree.insert("", 0, value=ite, text=count)
             if count >= self.item:
                 break
             count += 1
