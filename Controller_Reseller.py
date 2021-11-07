@@ -1,6 +1,6 @@
-from DS import Core, Reseller
 from GUI_login import LoginWindow
 from Reseller import ResellerView
+from DS import Core, Reseller
 
 database = Core()
 
@@ -17,8 +17,3 @@ def successfully_login(user: "Reseller"):
 
 login = LoginWindow(database.login, successfully_login)
 login.mainloop()
-
-
-
-
-

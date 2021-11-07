@@ -1,6 +1,6 @@
-from configure import Button, Label, Frame, Entry, LabelFrame
-import tkinter
+from configure import Button, Label, Frame
 from tkinter import messagebox, ttk
+import tkinter
 
 
 class SuggestionView(Frame):
@@ -76,28 +76,3 @@ class SuggestionView(Frame):
 
         self.callback_add_sug(self.callback_user, text)
         self.next_page()
-
-
-# class Suggestion(Frame):
-#     def __init__(self, master, callback_suggestion):
-#         super(Suggestion, self).__init__(master)
-#         self.config(bd=3, bg="#fff1e6")
-#         self.node = callback_suggestion
-#         print(type(callback_suggestion))
-#         delete = callback_suggestion.is_delete
-#         time = callback_suggestion.time
-#         text = callback_suggestion.text
-#
-#         text_box = tkinter.Text(self, width=20, height=10)
-#         text_box.grid(row=0, column=0)
-#         text_box.insert("end", text)
-#         text_box.insert("end", f"({str(time)})")
-#         if delete:
-#             text_box.insert("end", f"(*this message seen by manager)")
-
-
-
-
-
-
-

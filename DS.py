@@ -100,11 +100,12 @@ class Core:
 
             array[k].national_code = cursor
 
-    def delete_sug(self, suggestion: "Suggestion"):
+    @staticmethod
+    def delete_sug(suggestion: "Suggestion"):
         suggestion.is_delete = True
 
     def login(self, national_code, password):
-        # use binary search
+
         minimum = 0
         maximum = len(self.resellers) - 1
         while minimum <= maximum:

@@ -1,5 +1,4 @@
-from configure import Button, Label, Frame, Entry, LabelFrame
-import tkinter
+from configure import Button, Frame
 from tkinter import messagebox, ttk
 
 

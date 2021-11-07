@@ -59,8 +59,3 @@ class LabelFrame(tk.LabelFrame):
         if "bg" not in kwargs:
             kwargs["bg"] = "#E2EAFC"
         super(LabelFrame, self).__init__(master, kwargs)
-
-
-
-
-

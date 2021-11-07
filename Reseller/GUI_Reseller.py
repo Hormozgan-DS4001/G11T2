@@ -19,7 +19,6 @@ class ResellerView(Tk):
 
         self.title("Reseller")
         self.geometry("500x500+200+200")
-        # self.resizable(False, False)
 
         self.not_tab = ttk.Notebook(self)
         self.not_tab.grid(row=0, column=0)
@@ -92,13 +91,3 @@ class ResellerView(Tk):
         panel = SuggestionView(self.callback_user, self.callback_add_sug, self.callback_show_suggestion, self.not_tab)
         self.not_tab.add(panel, text="suggestion")
         self.not_tab.select(panel)
-
-
-
-
-
-
-
-
-
-

@@ -261,18 +261,3 @@ class DArray:
 
     def get_node_handler(self, index=0):
         return self.IndexHandler(self, index)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

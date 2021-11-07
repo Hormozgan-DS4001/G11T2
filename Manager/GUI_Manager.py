@@ -1,8 +1,7 @@
 from configure import Entry, Frame, LabelFrame, Button, Label, Tk
-from tkinter import ttk, messagebox
-import tkinter
-from Manager.store_panel import StorePanel
 from Manager.manager_suggestion import SuggestionView
+from Manager.store_panel import StorePanel
+from tkinter import ttk, messagebox
 
 
 class ManagerView(Tk):
@@ -70,7 +69,6 @@ class ManagerView(Tk):
         panel = SuggestionView(self.all_suggestion, self.delete_sug, self.not_tab)
         self.not_tab.add(panel, text="Suggestion")
 
-
     def store_search(self):
         cs = self.entry_cs.get()
         if cs == "":
@@ -113,26 +111,3 @@ class ManagerView(Tk):
             self.tree.insert("", 0, value=ite)
             if count >= self.item:
                 break
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

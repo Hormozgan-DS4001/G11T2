@@ -118,7 +118,3 @@ class StorePanel(Frame):
             if count >= self.item:
                 break
             count += 1
-
-
-
-
