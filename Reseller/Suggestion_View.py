@@ -63,7 +63,7 @@ class SuggestionView(Frame):
             if it.is_delete:
                 ite = (it.text, str(it.time), "+")
             else:
-                ite = (it.text, str(it.time), " ")
+                ite = (it.text, str(it.time), "-")
             self.tree.insert("", 0, value=ite)
             if count >= self.item:
                 break

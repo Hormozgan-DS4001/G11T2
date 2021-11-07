@@ -9,8 +9,8 @@ class SuggestionView(Frame):
         self.all_suggestion = callback_all_suggestion
         self.delete_sug = callback_delete
         self.start = self.all_suggestion()
-        self.end = self.start.copy()
-        self.item = 3
+        self.end = self.all_suggestion()
+        self.item = 4
         self.li_sug = []
         self.node = None
 

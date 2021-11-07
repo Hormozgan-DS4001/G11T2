@@ -14,8 +14,8 @@ class ResellerView(Tk):
         self.callback_add_sug = callback_add_suggestion
         self.start = callback_show_stores()
         print(type(self.start))
-        self.end = self.start.copy()
-        self.item = 3
+        self.end = callback_show_stores()
+        self.item = 4
 
         self.title("Reseller")
         self.geometry("500x500+200+200")
@@ -62,7 +62,7 @@ class ResellerView(Tk):
         for it in self.end.traverse():
             print(it)
             if it.reseller != self.callback_user:
-                it.delete_node()
+                self.end.delete_node()
                 continue
             ite = (it.code, it.rant)
             self.tree_view.insert("", "end", value=ite)
@@ -80,7 +80,7 @@ class ResellerView(Tk):
         count = 0
         for it in self.start.traverse(True):
             if it.reseller != self.callback_user:
-                it.delete_node()
+                self.start.delete_node()
                 continue
             ite = (it.code, it.rant)
             self.tree_view.insert("", 0, value=ite)
