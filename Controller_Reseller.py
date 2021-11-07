@@ -1,8 +1,15 @@
 from GUI_login import LoginWindow
 from Reseller import ResellerView
 from DS import Core, Reseller
+from pickle import load, dump
+from os.path import exists as file_exists
 
-database = Core()
+if file_exists("database.bin"):
+    file = open("database.bin", "rb")
+    database = load(file)
+    file.close()
+else:
+    database = Core()
 
 
 def add_suggestion(user: "Reseller", text):
@@ -17,3 +24,7 @@ def successfully_login(user: "Reseller"):
 
 login = LoginWindow(database.login, successfully_login)
 login.mainloop()
+
+file = open("database.bin", "wb")
+dump(database, file)
+file.close()
