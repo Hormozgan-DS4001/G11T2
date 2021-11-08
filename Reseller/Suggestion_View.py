@@ -9,7 +9,7 @@ class SuggestionView(Frame):
         self.callback_add_sug = callback_add_suggestion
         self.callback_user = callback_user
         self.end = callback_view_suggestion
-        self.start = self.end.copy()
+        self.start = callback_view_suggestion
         self.item = 2
 
         frm1 = Frame(self)
@@ -35,9 +35,11 @@ class SuggestionView(Frame):
         frm4.grid(row=3, column=0)
         Button(frm4, text="Next", command=self.next_page).grid(row=0, column=1)
         Button(frm4, text="Prev", command=self.prev_page).grid(row=0, column=0)
-        self.next_page()
+        self.prev_page()
 
     def next_page(self):
+        if self.end is None:
+            return
         if not self.end.has_next():
             return
         self.start = self.end.copy()
@@ -54,6 +56,8 @@ class SuggestionView(Frame):
             count += 1
 
     def prev_page(self):
+        if self.start is None:
+            return
         if not self.start.has_prev():
             return
         self.end = self.start.copy()
@@ -75,4 +79,4 @@ class SuggestionView(Frame):
             return
 
         self.callback_add_sug(self.callback_user, text)
-        # self.next_page()
+        self.box.delete("1.0", "end")

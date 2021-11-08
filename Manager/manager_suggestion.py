@@ -46,6 +46,8 @@ class SuggestionView(Frame):
         self.delete_sug(node.node.data)
 
     def next_page(self):
+        if self.end is None:
+            return
         if self.end.node.next is None:
             return
         self.start = self.end.copy()
@@ -64,6 +66,8 @@ class SuggestionView(Frame):
             count += 1
 
     def prev_page(self):
+        if self.start is None:
+            return
         if self.start.node.prev is None:
             return
         self.end = self.start.copy()

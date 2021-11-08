@@ -23,9 +23,13 @@ class Reseller:
         self.suggestion_user.append(suggestion)
 
     def view_suggestion(self):
+        if len(self.suggestion_user) == 0:
+            return
         return self.suggestion_user.get_node_handler(len(self.suggestion_user) - 1)
 
     def show_stores_user(self):
+        if len(self.stores_list) == 0:
+            return
         return self.stores_list.get_node_handler(0)
 
 
@@ -69,6 +73,8 @@ class Core:
         return self.stores.get_node_handler(0)
 
     def show_all_reseller(self):
+        if len(self.resellers) == 0:
+            return
         return self.resellers.get_node_handler(0)
 
     def search_store(self, store_code: int):
@@ -81,6 +87,8 @@ class Core:
         return store
 
     def view_suggestion(self):
+        if len(self.suggestion_list) == 0:
+            return
         return self.suggestion_list.get_node_handler(0)
 
     def add_suggestion(self, reseller: "Reseller", text: str):
@@ -94,6 +102,8 @@ class Core:
     def _sorting(array: DArray):
 
         for i in range(len(array)):
+            if i == 0:
+                continue
             cursor = array[i]
             k = i
             while k > 0 and cursor.national_code < array[k - 1].national_code:

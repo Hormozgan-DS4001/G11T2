@@ -119,5 +119,5 @@ class ManagerView(Tk):
 
     def new_store(self):
         panel = CreateStore(self.create_store, self.not_tab)
-        self.not_tab.add(panel)
+        self.not_tab.add(panel, text="New Store")
         self.not_tab.select(panel)

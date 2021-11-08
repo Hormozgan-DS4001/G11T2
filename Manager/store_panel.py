@@ -10,7 +10,7 @@ class StorePanel(Frame):
         self.new_reseller = callback_create_reseller
         self.item = 5
         self.start = callback_resellers()
-        self.end = self.start.copy()
+        self.end = callback_resellers()
         self.list_res = []
 
         sc = self.store.code
@@ -98,6 +98,7 @@ class StorePanel(Frame):
 
         user = self.list_res[int(ID)]
         self.store.add_reseller(user, float(res))
+        self.next_page()
 
     def delete_reseller(self):
         result = messagebox.askokcancel("Sure", f"are you sure delete this reseller")
@@ -106,6 +107,8 @@ class StorePanel(Frame):
         self.tree.selection_remove()
 
     def next_page(self):
+        if self.start is None:
+            return
         if not self.end.has_next():
             return
         self.tree.delete(*self.tree.get_children())
@@ -113,6 +116,8 @@ class StorePanel(Frame):
         self.list_res = []
         count = 0
         for it in self.end.traverse():
+            if it == 0:
+                continue
             ite = (it.name, it.national_code)
             self.list_res.append(it)
             self.tree.insert("", "end", value=ite, text=count)
@@ -121,6 +126,8 @@ class StorePanel(Frame):
             count += 1
 
     def prev_page(self):
+        if self.start is None:
+            return
         if not self.start.has_prev():
             return
         count = 0
@@ -128,6 +135,8 @@ class StorePanel(Frame):
         self.tree.delete(*self.tree.get_children())
         self.list_res = []
         for it in self.start.traverse(True):
+            if it == 0:
+                continue
             ite = (it.name, it.national_code)
             self.list_res.append(it)
             self.tree.insert("", 0, value=ite, text=count)
