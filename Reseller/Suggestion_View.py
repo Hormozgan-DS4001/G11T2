@@ -8,8 +8,8 @@ class SuggestionView(Frame):
         super(SuggestionView, self).__init__(master)
         self.callback_add_sug = callback_add_suggestion
         self.callback_user = callback_user
-        self.end = callback_view_suggestion
-        self.start = callback_view_suggestion
+        self.end = callback_view_suggestion()
+        self.start = callback_view_suggestion()
         self.item = 2
 
         frm1 = Frame(self)
