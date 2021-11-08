@@ -39,9 +39,6 @@ class SuggestionView(Frame):
             messagebox.showerror("error", "please select one suggestion")
         ID = self.tree.item(select)["text"]
         node = self.li_sug[int(ID)]
-        print(ID)
-        for it in self.li_sug:
-            print(it.node.data.reseller.name)
         node.delete_node()
         self.delete_sug(node.node.data)
 

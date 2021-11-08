@@ -89,6 +89,7 @@ class Core:
     def view_suggestion(self):
         if len(self.suggestion_list) == 0:
             return
+        print(self.suggestion_list)
         return self.suggestion_list.get_node_handler(0)
 
     def add_suggestion(self, reseller: "Reseller", text: str):
@@ -114,7 +115,6 @@ class Core:
 
     @staticmethod
     def delete_sug(suggestion: "Suggestion"):
-
         suggestion.is_delete = True
 
     def login(self, national_code: int, password: str):
