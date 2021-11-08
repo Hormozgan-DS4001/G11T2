@@ -54,6 +54,14 @@ class ResellerView(Tk):
     def next_page(self):
         if self.end is None:
             return
+        if self.end.node.prev is None and self.end.node.next is None:
+            self.tree_view.delete(*self.tree_view.get_children())
+            result = self.end.get()
+            if result.reseller != self.callback_user:
+                self.end.delete_node()
+                return
+            self.tree_view.insert("", "end", value=(result.code, result.rant))
+            return
         if self.end.node.next is None:
             return
         self.tree_view.delete(*self.tree_view.get_children())
@@ -72,6 +80,14 @@ class ResellerView(Tk):
 
     def prev_page(self):
         if self.start is None:
+            return
+        if self.start.node.prev is None and self.start.node.next is None:
+            self.tree_view.delete(*self.tree_view.get_children())
+            result = self.start.get()
+            if result.reseller != self.callback_user:
+                self.start.delete_node()
+                return
+            self.tree_view.insert("", "end", value=(result.code, result.rant))
             return
         if self.start.node.prev is None:
             return

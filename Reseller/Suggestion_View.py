@@ -40,6 +40,15 @@ class SuggestionView(Frame):
     def next_page(self):
         if self.end is None:
             return
+        if len(self.end.array) == 1:
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            if result.is_delete:
+                self.tree.insert("", "end", value=(result.text, str(result.time), "+"))
+                return
+            self.tree.insert("", "end", value=(result.text, str(result.time), "-"))
+            return
+
         if not self.end.has_next():
             return
         self.start = self.end.copy()
@@ -58,6 +67,16 @@ class SuggestionView(Frame):
     def prev_page(self):
         if self.start is None:
             return
+
+        if len(self.start.array) == 1:
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            if result.is_delete:
+                self.tree.insert("", 0, value=(result.text, str(result.time), "+"))
+                return
+            self.tree.insert("", 0, value=(result.text, str(result.time), "-"))
+            return
+
         if not self.start.has_prev():
             return
         self.end = self.start.copy()

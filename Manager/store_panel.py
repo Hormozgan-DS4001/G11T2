@@ -107,8 +107,17 @@ class StorePanel(Frame):
         self.tree.selection_remove()
 
     def next_page(self):
-        if self.start is None:
+        if self.end is None:
             return
+
+        if len(self.end.array) == 1:
+            self.list_res = []
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            self.tree.insert("", "end", value=(result.name, result.national_code))
+            self.list_res.append(result)
+            return
+
         if not self.end.has_next():
             return
         self.tree.delete(*self.tree.get_children())
@@ -128,6 +137,14 @@ class StorePanel(Frame):
     def prev_page(self):
         if self.start is None:
             return
+        if len(self.start.array) == 1:
+            self.list_res = []
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            self.tree.insert("", "end", value=(result.name, result.national_code))
+            self.list_res.append(result)
+            return
+
         if not self.start.has_prev():
             return
         count = 0
