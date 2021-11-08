@@ -13,7 +13,6 @@ class ResellerView(Tk):
         self.callback_show_suggestion = callback_show_suggestion
         self.callback_add_sug = callback_add_suggestion
         self.start = callback_show_stores()
-        print(type(self.start))
         self.end = callback_show_stores()
         self.item = 4
 
@@ -53,13 +52,22 @@ class ResellerView(Tk):
         self.next_page()
 
     def next_page(self):
+        if self.end is None:
+            return
+        if self.end.node.prev is None and self.end.node.next is None:
+            self.tree_view.delete(*self.tree_view.get_children())
+            result = self.end.get()
+            if result.reseller != self.callback_user:
+                self.end.delete_node()
+                return
+            self.tree_view.insert("", "end", value=(result.code, result.rant))
+            return
         if self.end.node.next is None:
             return
         self.tree_view.delete(*self.tree_view.get_children())
         self.start = self.end.copy()
         count = 0
         for it in self.end.traverse():
-            print(it)
             if it.reseller != self.callback_user:
                 self.end.delete_node()
                 continue
@@ -71,6 +79,16 @@ class ResellerView(Tk):
             count += 1
 
     def prev_page(self):
+        if self.start is None:
+            return
+        if self.start.node.prev is None and self.start.node.next is None:
+            self.tree_view.delete(*self.tree_view.get_children())
+            result = self.start.get()
+            if result.reseller != self.callback_user:
+                self.start.delete_node()
+                return
+            self.tree_view.insert("", "end", value=(result.code, result.rant))
+            return
         if self.start.node.prev is None:
             return
         self.end = self.start.copy()

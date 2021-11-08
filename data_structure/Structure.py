@@ -81,8 +81,8 @@ class Dll:
             elif not self.node.prev:
                 self.dll.delete(0)
             else:
-                self.node.next.prev = self.node.prev.next
-                self.node.prev.next = self.node.next.prev
+                self.node.prev.next = self.node.next
+                self.node.next.prev = self.node.prev
                 self.dll._length -= 1
 
         def traverse(self, reverse=False):
@@ -142,10 +142,20 @@ class Dll:
 
         else:
             del_node = self._get_node(index)
-            del_node.perv.next = del_node.next.prev
-            del_node.next.prev = del_node.prev.next
+            del_node.perv.next = del_node.next
+            del_node.next.prev = del_node.prev
 
         self._length -= 1
+
+    def prepend(self, data):
+        new_node = self._Node(data)
+        if self._length == 0:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
 
     def append(self, data):
         new_node = self._Node(data)
@@ -199,8 +209,6 @@ class DArray:
             return DArray.IndexHandler(self.array, self.index)
 
         def get(self):
-            print(self.index)
-            print(len(self.array))
             return self.array[self.index]
 
         def traverse(self, reverse=False):

@@ -10,7 +10,7 @@ class StorePanel(Frame):
         self.new_reseller = callback_create_reseller
         self.item = 5
         self.start = callback_resellers()
-        self.end = self.start.copy()
+        self.end = callback_resellers()
         self.list_res = []
 
         sc = self.store.code
@@ -59,6 +59,22 @@ class StorePanel(Frame):
         self.ent_rant = Entry(frm5)
         self.ent_rant.grid(row=0, column=1)
 
+        frm6 = Frame(self)
+        frm6.grid(row=6, column=0)
+        Label(frm6, text="Name: ").grid(row=0, column=0)
+        self.ent_name = Entry(frm6)
+        self.ent_name.grid(row=0, column=1)
+        Label(frm6, text="National code: ").grid(row=1, column=0)
+        self.ent_nc = Entry(frm6)
+        self.ent_nc.grid(row=1, column=1)
+        Label(frm6, text="password: ").grid(row=2, column=0)
+        self.ent_pas = Entry(frm6)
+        self.ent_pas.grid(row=2, column=1)
+        Label(frm6, text="create password: ").grid(row=3, column=0)
+        self.ent_CPas = Entry(frm6)
+        self.ent_CPas.grid(row=3, column=1)
+        Button(frm6, text="Add New Reseller", command=self.new_user).grid(row=4, column=0)
+
         self.next_page()
 
     def add_reseller(self):
@@ -82,6 +98,7 @@ class StorePanel(Frame):
 
         user = self.list_res[int(ID)]
         self.store.add_reseller(user, float(res))
+        self.next_page()
 
     def delete_reseller(self):
         result = messagebox.askokcancel("Sure", f"are you sure delete this reseller")
@@ -90,31 +107,78 @@ class StorePanel(Frame):
         self.tree.selection_remove()
 
     def next_page(self):
+        if self.end is None:
+            return
+
+        if len(self.end.array) == 1:
+            self.list_res = []
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            self.tree.insert("", "end", value=(result.name, result.national_code))
+            self.list_res.append(result)
+            return
+
         if not self.end.has_next():
             return
-        self.start = self.end.copy()
-        count = 0
-        self.list_res = []
         self.tree.delete(*self.tree.get_children())
+        self.start = self.end.copy()
+        self.list_res = []
+        count = 0
         for it in self.end.traverse():
+            if it == 0:
+                continue
             ite = (it.name, it.national_code)
             self.list_res.append(it)
-            self.tree.insert("", "end", value=ite, text=str(count))
+            self.tree.insert("", "end", value=ite, text=count)
             if count >= self.item:
                 break
             count += 1
 
     def prev_page(self):
+        if self.start is None:
+            return
+        if len(self.start.array) == 1:
+            self.list_res = []
+            self.tree.delete(*self.tree.get_children())
+            result = self.end.get()
+            self.tree.insert("", "end", value=(result.name, result.national_code))
+            self.list_res.append(result)
+            return
+
         if not self.start.has_prev():
             return
         count = 0
-        self.list_res = []
         self.end = self.start.copy()
         self.tree.delete(*self.tree.get_children())
+        self.list_res = []
         for it in self.start.traverse(True):
+            if it == 0:
+                continue
             ite = (it.name, it.national_code)
             self.list_res.append(it)
-            self.tree.insert("", "end", value=ite, tag=count)
+            self.tree.insert("", 0, value=ite, text=count)
             if count >= self.item:
                 break
             count += 1
+
+    def new_user(self):
+        name = self.ent_name.get()
+        nat_code = self.ent_nc.get()
+        password = self.ent_pas.get()
+        create_pass = self.ent_CPas.get()
+        if not nat_code.isnumeric():
+            messagebox.showerror("error", "please enter correct national code")
+            self.ent_nc.delete(0, "end")
+            return
+        if password != create_pass:
+            messagebox.showerror("error", "tow password is not same")
+            self.ent_pas.delete(0, "end")
+            self.ent_CPas.delete(0, "end")
+            return
+        self.new_reseller(name, int(nat_code), create_pass)
+        self.ent_name.delete(0, "end")
+        self.ent_nc.delete(0, "end")
+        self.ent_pas.delete(0, "end")
+        self.ent_CPas.delete(0, "end")
+
+

@@ -1,6 +1,7 @@
 from configure import Entry, Frame, LabelFrame, Button, Label, Tk
 from Manager.manager_suggestion import SuggestionView
 from Manager.store_panel import StorePanel
+from Manager.create_store import CreateStore
 from tkinter import ttk, messagebox
 
 
@@ -52,6 +53,10 @@ class ManagerView(Tk):
         frm4.grid(row=3, column=0)
         Button(frm4, text="prev", command=self.prev_page).grid(row=0, column=0)
         Button(frm4, text="next", command=self.next_page).grid(row=0, column=1, sticky="w")
+
+        frm5 = Frame(frm_lbl)
+        frm5.grid(row=4, column=0)
+        Button(frm5, text="New Store", command=self.new_store).grid(row=0, column=0)
 
         self.next_page()
 
@@ -111,3 +116,8 @@ class ManagerView(Tk):
             self.tree.insert("", 0, value=ite)
             if count >= self.item:
                 break
+
+    def new_store(self):
+        panel = CreateStore(self.create_store, self.not_tab)
+        self.not_tab.add(panel, text="New Store")
+        self.not_tab.select(panel)

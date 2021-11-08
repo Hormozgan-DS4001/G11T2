@@ -23,9 +23,13 @@ class Reseller:
         self.suggestion_user.append(suggestion)
 
     def view_suggestion(self):
+        if len(self.suggestion_user) == 0:
+            return
         return self.suggestion_user.get_node_handler(len(self.suggestion_user) - 1)
 
     def show_stores_user(self):
+        if len(self.stores_list) == 0:
+            return
         return self.stores_list.get_node_handler(0)
 
 
@@ -59,7 +63,7 @@ class Core:
         self.stores = SArray(200)
         self.resellers = DArray(200)
 
-    def create_new_reseller(self, name, national_code, password):
+    def create_new_reseller(self, name: str, national_code: int, password: str):
         new_reseller = Reseller(name, national_code, password)
         self.resellers.append(new_reseller)
         self._sorting(self.resellers)
@@ -69,17 +73,23 @@ class Core:
         return self.stores.get_node_handler(0)
 
     def show_all_reseller(self):
+        if len(self.resellers) == 0:
+            return
         return self.resellers.get_node_handler(0)
 
     def search_store(self, store_code: int):
+        assert 0 < store_code <= 200
         return self.stores[store_code - 1]
 
-    def create_store(self, address):
+    def create_store(self, address: str):
         store = Store(address)
         self.stores[store.code - 1] = store
         return store
 
     def view_suggestion(self):
+        if len(self.suggestion_list) == 0:
+            return
+        print(self.suggestion_list)
         return self.suggestion_list.get_node_handler(0)
 
     def add_suggestion(self, reseller: "Reseller", text: str):
@@ -91,20 +101,23 @@ class Core:
 
     @staticmethod
     def _sorting(array: DArray):
+
         for i in range(len(array)):
-            cursor = array[i].national_code
+            if i == 0:
+                continue
+            cursor = array[i]
             k = i
-            while k > 0 and cursor < array[k - 1].national_code:
-                array[k].national_code = array[k - 1].national_code
+            while k > 0 and cursor.national_code < array[k - 1].national_code:
+                array[k] = array[k - 1]
                 k -= 1
 
-            array[k].national_code = cursor
+            array[k] = cursor
 
     @staticmethod
     def delete_sug(suggestion: "Suggestion"):
         suggestion.is_delete = True
 
-    def login(self, national_code, password):
+    def login(self, national_code: int, password: str):
 
         minimum = 0
         maximum = len(self.resellers) - 1
